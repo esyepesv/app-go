@@ -8,15 +8,17 @@ phases:
       - echo "Instalando dependencias..."
       - go get -t -v ./...
       - go get github.com/jstemmer/go-junit-report/v2@latest
-      - go get github.com/t-yuki/gocover-cobertura
-      - go get github.com/gorilla/mux 
+      - curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.57.2
+      # - go get github.com/t-yuki/gocover-cobertura
+      # - go get github.com/gorilla/mux 
 
   build:
     commands:
       - echo "Ejecutando pruebas y generando reportes..."
-      - go test -coverprofile=coverage.txt -covermode count github.com/gorilla/mux
-      - gocover-cobertura < coverage.txt > coverage.xml
+      # - go test -coverprofile=coverage.txt -covermode count github.com/gorilla/mux
+      # - gocover-cobertura < coverage.txt > coverage.xml
       - go test -v 2>&1 | go-junit-report -set-exit-code > reports/report.xml
+      - golangci-lint run
       - echo "Compilando la aplicación..."
       - go build -o application
 
