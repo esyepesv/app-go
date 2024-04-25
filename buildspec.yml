@@ -4,29 +4,24 @@ phases:
   install:
     runtime-versions:
       golang: 1.22
-    commands:
-      - echo "Instalando dependencias..."
-      - go get -t -v ./...
-      - go get github.com/jstemmer/go-junit-report/v2@latest
-      - curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.57.2
-      # - go get github.com/t-yuki/gocover-cobertura
-      # - go get github.com/gorilla/mux 
 
   build:
     commands:
-      - echo "Ejecutando pruebas y generando reportes..."
-      # - go test -coverprofile=coverage.txt -covermode count github.com/gorilla/mux
-      # - gocover-cobertura < coverage.txt > coverage.xml
-      - go test -v 2>&1 | go-junit-report -set-exit-code > reports/report.xml
-      - golangci-lint run
+      - echo "Instalando dependencias..."
+      - go get -t -v ./...
+      - echo "Ejecutando pruebas..."
+      - go test . -coverprofile coverage-report
+      - go tool cover -html coverage-report -o coverage-report.html
+      - go install github.com/jstemmer/go-junit-report/v2@latest
+      - go test -v 2>&1 . | go-junit-report -set-exit-code > reports/report.xml
       - echo "Compilando la aplicación..."
       - go build -o application
 
 reports:
   coverage-report:
     files:
-      - 'coverage-report.xml'  # Cobertura XML format compatible with AWS Beanstalk
-    file-format: 'COBERTURAXML'
+      - 'coverage-report.html'
+    file-format: 'HTML'
   junit-report:
     files:
       - 'reports/report.xml'
