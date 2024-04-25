@@ -8,11 +8,11 @@ phases:
   install:
     runtime-versions:
       golang: 1.22
-    commands:
-      - go get -t -v ./...
 
   pre_build:
     commands:
+      - echo "Instalando dependencias..."
+      - go get -t -v ./...
       - echo "Ejecutando pruebas..."
       - go test . -coverprofile coverage-report
       - go tool cover -html coverage-report -o coverage-report.html
@@ -20,7 +20,6 @@ phases:
       - go test -v 2>&1 . | go-junit-report -set-exit-code > reports/report.xml
   build:
     commands:
-      - echo "Instalando dependencias..."
       - echo "Compilando la aplicación..."
       - go build -o application
 
