@@ -1,33 +1,39 @@
 version: 0.2
 
+env:
+  variables:
+    GO111MODULE: "off"
+
 phases:
   install:
     runtime-versions:
       golang: 1.22
+    commands:
+      - go get -t -v ./...
 
+  pre_build:
+    commands:
+      - echo "Ejecutando pruebas..."
+      - go test . -coverprofile coverage-report
+      - go tool cover -html coverage-report -o coverage-report.html
+      - go install github.com/jstemmer/go-junit-report/v2@latest
+      - go test -v 2>&1 . | go-junit-report -set-exit-code > reports/report.xml
   build:
     commands:
       - echo "Instalando dependencias..."
-      - go get -t -v ./...
       - echo "Compilando la aplicación..."
       - go build -o application
-      - echo "Ejecutando pruebas..."
-      - go test -v ./... -coverprofile cover.out
-
-  post_build:
-    commands:
-      - echo "Empaquetando la aplicación..."
-      # Puedes agregar comandos adicionales aquí si es necesario
 
 reports:
-  CoverageReport:
+  coverage-report:
     files:
-      - 'cover.out'
-    file-format: 'CLOVERXML'
-    # Debes asegurarte de convertir el reporte de cobertura de Go al formato esperado si es necesario
-    # Go no soporta directamente el formato CLOVERXML; esto es solo un ejemplo y puede necesitar adaptación
+      - 'coverage-report.html'
+    file-format: 'HTML'
+  junit-report:
+    files:
+      - 'reports/report.xml'
+    file-format: 'JUNITXML'
 
 artifacts:
   files:
     - application
-  # Asegúrate de que los nombres y ubicaciones de los archivos coincidan con lo que tu aplicación genera y necesita
