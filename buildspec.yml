@@ -10,7 +10,7 @@ phases:
       - echo "Instalando dependencias..."
       - go get -t -v ./...
       - echo "Compilando la aplicación..."
-      - go build -o myGoApp
+      - go build -o application
       - echo "Ejecutando pruebas..."
       - go test -v ./... -coverprofile cover.out
 
@@ -29,6 +29,5 @@ reports:
 
 artifacts:
   files:
-    - myGoApp
-    - cover.out
+    - application
   # Asegúrate de que los nombres y ubicaciones de los archivos coincidan con lo que tu aplicación genera y necesita
