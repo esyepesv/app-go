@@ -1,9 +1,5 @@
 version: 0.2
 
-env:
-  variables:
-    GO111MODULE: "off"
-
 phases:
   install:
     runtime-versions:
