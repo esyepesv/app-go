@@ -14,8 +14,8 @@ phases:
     commands:
       - echo "Ejecutando pruebas y generando reportes..."
       - go test -coverprofile coverage-report.out
-      #- go tool cover -html=coverage-report.html -o coverage-report.html
-      #- go tool cover -func=coverage-report.out -o coverage-report.txt
+      - go tool cover -html=coverage-report.html -o coverage-report.html
+      - go tool cover -func=coverage-report.out -o coverage-report.txt
       - gocover-cobertura < coverage-report.out > coverage-report.xml
       - go test -v 2>&1 | go-junit-report -set-exit-code > reports/report.xml
       - echo "Compilando la aplicación..."
