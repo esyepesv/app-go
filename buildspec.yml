@@ -7,18 +7,13 @@ phases:
     commands:
       - echo "Instalando dependencias..."
       - go get -t -v ./...
-      - go install github.com/jstemmer/go-junit-report/v2@latest
+      - go get github.com/jstemmer/go-junit-report/v2@latest
       - go get github.com/t-yuki/gocover-cobertura
-      #- go get code.google.com/p/go.tools/cmd/cover
-      #- go get github.com/boumenot/gocover-cobertura
+      - go get github.com/gorilla/mux 
 
   build:
     commands:
       - echo "Ejecutando pruebas y generando reportes..."
-      #- go test -coverprofile coverage-report.out
-      #- go tool cover -html=coverage-report.html -o coverage-report.html
-      #- go tool cover -func=coverage-report.out -o coverage-report.txt
-      #- gocover-cobertura < coverage-report.out > coverage-report.xml
       - go test -coverprofile=coverage.txt -covermode count github.com/gorilla/mux
       - gocover-cobertura < coverage.txt > coverage.xml
       - go test -v 2>&1 | go-junit-report -set-exit-code > reports/report.xml
