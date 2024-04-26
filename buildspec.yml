@@ -10,15 +10,20 @@ phases:
       - echo "Instalando dependencias..."
       - go get -t -v ./...
       - echo "Ejecutando pruebas..."
-      # - curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.57.2
+      # - echo "Analisis codigo estatico"
       - go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.57.2
       - golangci-lint run
+      # - echo "Pruebas unitarias"
+      - go install github.com/jstemmer/go-junit-report/v2@latest
+      - go test -v 2>&1 . | go-junit-report -set-exit-code > reports/report.xml
+      # - echo "Cobertura"
       - go test . -coverprofile cover.out  # Genera el informe de cobertura
       - go tool cover -html cover.out -o cover.html  # Genera reporte HTML
       - go run  pkg/gocovergate.go
-      - go install github.com/jstemmer/go-junit-report/v2@latest
-      - go test -v 2>&1 . | go-junit-report -set-exit-code > reports/report.xml
-      - echo "Compilando la aplicación..."
+      # - echo "Seguridad"
+      - go install golang.org/x/vuln/cmd/govulncheck@latest
+      - govulncheck ./...
+      - echo "Compilando la aplicacion..."
       - go build -o application
 
 reports:
