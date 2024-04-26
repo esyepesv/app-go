@@ -24,6 +24,7 @@ reports:
     files:
       - 'coverage-report.html'
     file-format: 'HTML'
+
   junit-report:
     files:
       - 'reports/report.xml'
