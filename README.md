@@ -30,7 +30,7 @@ This is a simple Go application that provides a web server with the following fu
 1. Run the application:
 
     ```shell
-    go run main.go
+    go run .
     ```
 
 2. The server will start on `http://localhost:5000`.
