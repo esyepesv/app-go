@@ -4,6 +4,6 @@ func calcularCuadrado(n int) int {
 	return n * n
 }
 
-func calcularubo(n int) int {
+func calcularCubo(n int) int {
 	return n * n * n
 }
