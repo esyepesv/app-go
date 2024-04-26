@@ -33,3 +33,4 @@ reports:
 artifacts:
   files:
     - application
+    - coverage-report.html

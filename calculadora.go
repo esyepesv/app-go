@@ -5,5 +5,5 @@ func calcularCuadrado(n int) int {
 }
 
 func calcularCubo(n int) int {
-	return n*n + n
+	return n * n * n
 }
