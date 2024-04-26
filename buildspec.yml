@@ -24,7 +24,7 @@ phases:
 reports:
   coverage-report:
     files:
-      - 'coverage-report.html'
+      - 'cover.html'
     file-format: 'HTML'
 
   junit-report:
@@ -35,4 +35,4 @@ reports:
 artifacts:
   files:
     - application
-    - coverage-report.html
+    - cover.html
