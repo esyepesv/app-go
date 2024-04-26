@@ -9,11 +9,14 @@ phases:
     commands:
       - echo "Instalando dependencias..."
       - go get -t -v ./...
+
       - echo "Ejecutando pruebas..."
-      - go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.57.2
-      - golangci-lint run
+      # - go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.57.2
+      # - golangci-lint run
+      - go install github.com/patrickhoefler/gocovergate@latest
+      - go test . -coverprofile cover.out
+      - gocovergate
       - go test . -coverprofile coverage-report
-      - sh coverage.sh
       - go tool cover -html coverage-report -o coverage-report.html
       - go install github.com/jstemmer/go-junit-report/v2@latest
       - go test -v 2>&1 . | go-junit-report -set-exit-code > reports/report.xml
