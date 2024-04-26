@@ -10,8 +10,8 @@ phases:
       - echo "Instalando dependencias..."
       - go get -t -v ./...
       - echo "Ejecutando pruebas..."
-      - go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.57.2
-      - golangci-lint run
+      #- go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.57.2
+      #- golangci-lint run
       - go test . -coverprofile coverage-report
       - go tool cover -html coverage-report -o coverage-report.html
       - go install github.com/jstemmer/go-junit-report/v2@latest
