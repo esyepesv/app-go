@@ -16,6 +16,13 @@ phases:
       - go tool cover -html coverage-report -o coverage-report.html
       - go install github.com/jstemmer/go-junit-report/v2@latest
       - go test -v 2>&1 . | go-junit-report -set-exit-code > reports/report.xml
+      - COVERAGE=$(go tool cover -func=coverage-report | grep total: | awk '{print $3}' | tr -d '%')
+      - echo "Coverage is $COVERAGE%"
+      - |
+        if [[ "$COVERAGE" -lt 80 ]]; then
+          echo "Build failed: Code coverage is below 80%"
+          exit 1
+        fi
       - echo "Compilando la aplicación..."
       - go build -o application
 
