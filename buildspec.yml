@@ -5,25 +5,26 @@ phases:
     runtime-versions:
       golang: 1.22
 
+  pre_build:
+    commands:
+      - echo "Instalando herramientas de análisis y pruebas..."
+      - go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.57.2
+      - go install github.com/jstemmer/go-junit-report/v2@latest
+      - go install golang.org/x/vuln/cmd/govulncheck@latest
+
   build:
     commands:
-      - echo "Instalando dependencias..."
-      - go get -t -v ./...
-      - echo "Ejecutando pruebas..."
-      # - echo "Analisis codigo estatico"
-      - go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.57.2
+      - echo "Ejecutando análisis de código estático..."
       - golangci-lint run
-      # - echo "Pruebas unitarias"
-      - go install github.com/jstemmer/go-junit-report/v2@latest
+      - echo "Ejecutando pruebas..."
       - go test -v 2>&1 . | go-junit-report -set-exit-code > reports/report.xml
-      # - echo "Cobertura"
+      - echo "Generando informe de cobertura..."
       - go test . -coverprofile cover.out  # Genera el informe de cobertura
       - go tool cover -html cover.out -o cover.html  # Genera reporte HTML
-      - go run  pkg/gocovergate.go
-      # - echo "Seguridad"
-      - go install golang.org/x/vuln/cmd/govulncheck@latest
+      - go run pkg/gocovergate.go
+      - echo "Verificando seguridad..."
       - govulncheck ./...
-      - echo "Compilando la aplicacion..."
+      - echo "Compilando la aplicación..."
       - go build -o application
 
 reports:
