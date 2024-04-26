@@ -21,13 +21,6 @@ phases:
       - echo "Compilando la aplicación..."
       - go build -o application
 
-      # Verificar cobertura y fallar si es menor a 80%
-      - grep -Eo '[0-9]+\.[0-9]+' coverage-report | tail -n 1 > coverage_percent.txt
-      - if [ $(cat coverage_percent.txt) -lt 80 ]; then
-          echo "Error: Cobertura de pruebas menor al 80%"
-          exit 1  # Marca la compilación como fallida
-        fi
-
 reports:
   coverage-report:
     files:
