@@ -10,8 +10,8 @@ phases:
       - echo "Instalando dependencias..."
       - go get -t -v ./...
       - echo "Ejecutando pruebas..."
-      - curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.57.2
-      # - go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.57.2
+      # - curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.57.2
+      - go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.57.2
       - golangci-lint run
       - go test . -coverprofile cover.out  # Genera el informe de cobertura
       - go tool cover -html cover.out -o cover.html  # Genera reporte HTML
