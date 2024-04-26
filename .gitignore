@@ -23,3 +23,5 @@ go.work
 coverage-report
 coverage-report.html
 reports/report.xml
+cover.html
+cover.out
