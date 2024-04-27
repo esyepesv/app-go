@@ -16,14 +16,14 @@ phases:
     commands:
       - echo "Ejecutando análisis de código estático..."
       - golangci-lint run
-      - echo "Ejecutando pruebas..."
-      - go test -v 2>&1 . | go-junit-report -set-exit-code > reports/report.xml
-      - echo "Generando informe de cobertura..."
-      - go test . -coverprofile cover.out  # Genera el informe de cobertura
-      - go tool cover -html cover.out -o cover.html  # Genera reporte HTML
-      - go run pkg/gocovergate.go
       - echo "Verificando seguridad..."
       - govulncheck ./...
+      - echo "Ejecutando pruebas unitarias"
+      - go test -v 2>&1 . | go-junit-report -set-exit-code > reports/report.xml
+      - echo "Generando informe de cobertura..."
+      - go test . -coverprofile cover.out 
+      - go tool cover -html cover.out -o cover.html 
+      - go run pkg/gocovergate.go
       - echo "Compilando la aplicación..."
       - go build -o application
 
