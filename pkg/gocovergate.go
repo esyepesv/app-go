@@ -48,7 +48,7 @@ func checkCodeCoverage(desiredCoverage int) {
 
 func main() {
 	// Set the desired code coverage threshold
-	desiredCoverage := 60
+	desiredCoverage := 80
 
 	// Check the code coverage
 	checkCodeCoverage(desiredCoverage)
